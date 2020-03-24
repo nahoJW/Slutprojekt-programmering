@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+    using System.Collections.Generic;
 
 namespace Template
 {
@@ -12,8 +13,21 @@ namespace Template
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         //KOmentar
+        private Texture2D racer;
+        private Texture2D enemy;
+
+        private Vector2 racerPos = new Vector2(350, 300);
+        private Vector2 enemyPos = new Vector2(200,  100);
+        private Vector2 enemyPos2 = new Vector2(300,  100);
+        private Vector2 enemyPos3 = new Vector2(400,  100);
+
+        KeyboardState kNewState;
+        KeyboardState kOldState;
+
+
         public Game1()
         {
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -39,6 +53,8 @@ namespace Template
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            racer = Content.Load<Texture2D>("racer");
+            enemy = Content.Load<Texture2D>("racer");
 
             // TODO: use this.Content to load your game content here 
         }
@@ -61,8 +77,21 @@ namespace Template
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            kNewState = Keyboard.GetState();
 
             // TODO: Add your update logic here
+            if (kNewState.IsKeyDown(Keys.Right) && kOldState.IsKeyUp(Keys.Right)){
+                enemyPos.X -= 200;
+                enemyPos2.X -= 200;
+                enemyPos3.X -= 200;
+                }//flyttar motståndare och boarder till vänster för att använadren ska flyttas till höger
+            
+            if (kNewState.IsKeyDown(Keys.Left) && kOldState.IsKeyUp(Keys.Left)){
+                enemyPos.X += 200;
+                enemyPos2.X += 200;
+                enemyPos3.X += 200;
+            } //flyttar motståndare och boarder till höger för att använadren ska flyttas till väster
+
 
             base.Update(gameTime);
         }
@@ -76,7 +105,16 @@ namespace Template
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here.
+            spriteBatch.Begin();
 
+
+
+            spriteBatch.Draw(racer, racerPos, Color.White);
+            spriteBatch.Draw(enemy, enemyPos, Color.White);
+            spriteBatch.Draw(enemy, enemyPos2, Color.White);
+            spriteBatch.Draw(enemy, enemyPos3, Color.White);
+             
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
