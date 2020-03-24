@@ -29,7 +29,7 @@ namespace Template
         {
 
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "Content"; 
         }
 
         /// <summary>
